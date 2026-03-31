@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Camisetas de Culto — Ropa deportiva</title>
+<meta name="description" content="Prendas deportivas de calidad técnica diseñadas para rendir al máximo. Running, gym, fútbol y más."/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0f0f0f;
+    --white: #fafaf8;
+    --gray-50: #f5f4f1;
+    --gray-100: #e8e7e3;
+    --gray-300: #b0afa9;
+    --gray-500: #6e6d68;
+    --accent: #c8a96e;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 2.5rem;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px; letter-spacing: -0.3px; cursor: pointer;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 13px; color: var(--gray-500);
+    text-decoration: none; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--black); }
+  .nav-right { display: flex; gap: 10px; align-items: center; }
+  .btn-ghost {
+    font-size: 13px; padding: 8px 18px;
+    border: 1px solid var(--gray-100); border-radius: var(--radius-sm);
+    background: transparent; cursor: pointer; color: var(--black);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover { background: var(--gray-50); }
+  .btn-solid {
+    font-size: 13px; padding: 8px 20px;
+    background: var(--black); color: var(--white);
+    border: none; border-radius: var(--radius-sm); cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-solid:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+  }
+  .hero-left {
+    padding: 5rem 3rem 5rem 2.5rem;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--gray-100);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray-500); margin-bottom: 1.75rem;
+  }
+  .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 56px; line-height: 1.05; letter-spacing: -1.5px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--gray-500); }
+  .hero-desc {
+    font-size: 15px; color: var(--gray-500); line-height: 1.8;
+    margin-bottom: 2.5rem; max-width: 400px;
+  }
+  .hero-btns { display: flex; gap: 12px; align-items: center; }
+  .btn-primary {
+    padding: 13px 30px; background: var(--black); color: var(--white);
+    border: none; border-radius: var(--radius-sm); font-size: 14px;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    padding: 13px 22px; background: transparent; color: var(--black);
+    border: 1px solid var(--gray-100); border-radius: var(--radius-sm);
+    font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--gray-300); }
+  .hero-right {
+    background: var(--gray-50);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; padding: 3rem; position: relative;
+  }
+  .hero-pill {
+    position: absolute; bottom: 2rem; right: 2rem;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+  }
+  .hero-pill .pill-label { font-size: 11px; color: var(--gray-500); margin-bottom: 3px; letter-spacing: 0.5px; }
+  .hero-pill .pill-val { font-size: 14px; font-weight: 500; }
+
+  /* MARQUEE */
+  .marquee-bar {
+    border-top: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--gray-100);
+    padding: 14px 0; overflow: hidden; white-space: nowrap;
+    background: var(--white);
+  }
+  .marquee-inner { display: inline-block; animation: marquee 20s linear infinite; }
+  .marquee-inner span {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gray-500); margin: 0 2.5rem;
+  }
+  .marquee-inner .dot-sep { color: var(--accent); margin: 0 1rem; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* CATEGORIES */
+  .section { padding: 5rem 2.5rem; }
+  .sec-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray-500); margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px; letter-spacing: -0.5px; margin-bottom: 2.5rem;
+  }
+  .sec-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+  .sec-link { font-size: 13px; color: var(--gray-500); text-decoration: none; cursor: pointer; transition: color 0.2s; }
+  .sec-link:hover { color: var(--black); }
+
+  .cat-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 1px; background: var(--gray-100);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .cat-card {
+    background: var(--white); padding: 2.5rem 2rem;
+    cursor: pointer; position: relative; min-height: 280px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: background 0.2s;
+  }
+  .cat-card:hover { background: var(--gray-50); }
+  .cat-card.featured { background: var(--gray-50); }
+  .cat-arrow { position: absolute; top: 1.5rem; left: 1.5rem; font-size: 18px; color: var(--gray-300); }
+  .cat-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; margin-bottom: 4px;
+  }
+  .cat-card p { font-size: 13px; color: var(--gray-500); }
+  .cat-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -65%); opacity: 0.15; }
+
+  /* PRODUCTS */
+  .products-section {
+    padding: 0 2.5rem 5rem;
+    border-top: 1px solid var(--gray-100);
+    padding-top: 5rem;
+  }
+  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .prod-card { cursor: pointer; }
+  .prod-img {
+    height: 230px; border-radius: var(--radius);
+    border: 1px solid var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem; position: relative;
+    transition: border-color 0.2s;
+  }
+  .prod-card:hover .prod-img { border-color: var(--gray-300); }
+  .prod-badge {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 10px; background: var(--black); color: var(--white);
+    border-radius: 999px;
+  }
+  .prod-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .prod-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 10px; }
+  .prod-footer { display: flex; justify-content: space-between; align-items: center; }
+  .prod-price { font-size: 14px; font-weight: 500; }
+  .prod-add {
+    font-size: 12px; padding: 6px 14px;
+    border: 1px solid var(--gray-100); border-radius: var(--radius-sm);
+    background: transparent; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  }
+  .prod-add:hover { background: var(--gray-50); border-color: var(--gray-300); }
+
+  /* ABOUT */
+  .about-strip {
+    margin: 0 2.5rem 5rem;
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+  .about-left { padding: 3.5rem; }
+  .about-left h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; letter-spacing: -0.5px; margin-bottom: 1.25rem; margin-top: 8px;
+  }
+  .about-left p { font-size: 14px; color: var(--gray-500); line-height: 1.85; }
+  .about-right {
+    background: var(--gray-50); padding: 3.5rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+    border-left: 1px solid var(--gray-100);
+  }
+  .about-feat { display: flex; gap: 14px; align-items: flex-start; }
+  .about-icon {
+    width: 34px; height: 34px; border-radius: var(--radius-sm);
+    background: var(--white); border: 1px solid var(--gray-100);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .about-feat h4 { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .about-feat p { font-size: 13px; color: var(--gray-500); line-height: 1.65; }
+
+  /* CTA */
+  .cta-section {
+    margin: 0 2.5rem 5rem;
+    background: var(--black); color: var(--white);
+    border-radius: var(--radius);
+    padding: 4rem 2rem; text-align: center;
+  }
+  .cta-section .sec-label { color: var(--gray-300); }
+  .cta-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px; letter-spacing: -0.5px; margin: 8px 0 10px; color: var(--white);
+  }
+  .cta-section p { font-size: 14px; color: var(--gray-300); margin-bottom: 2rem; }
+  .cta-row { display: flex; gap: 10px; max-width: 380px; margin: 0 auto; }
+  .cta-row input {
+    flex: 1; padding: 11px 16px; font-size: 14px;
+    border: 1px solid #333; border-radius: var(--radius-sm);
+    background: #1a1a1a; color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cta-row input::placeholder { color: var(--gray-500); }
+  .cta-row button {
+    padding: 11px 22px; background: var(--white); color: var(--black);
+    border: none; border-radius: var(--radius-sm); font-size: 14px;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .cta-row button:hover { opacity: 0.9; }
+
+  footer {
+    border-top: 1px solid var(--gray-100);
+    padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 13px; color: var(--gray-500); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { font-size: 13px; color: var(--gray-500); text-decoration: none; cursor: pointer; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--black); }
+
+  /* FÚTBOL PAGE */
+  .futbol-hero { padding: 3rem 2.5rem 2rem; border-bottom: 1px solid var(--gray-100); }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--gray-500);
+    border: none; background: none; cursor: pointer;
+    margin-bottom: 1.5rem; font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--black); }
+  .futbol-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px; letter-spacing: -1px; margin-bottom: 8px;
+  }
+  .futbol-hero p { font-size: 14px; color: var(--gray-500); }
+
+  .filters {
+    display: flex; gap: 8px; padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--gray-100);
+    overflow-x: auto;
+  }
+  .filter-btn {
+    font-size: 12px; padding: 7px 18px; white-space: nowrap;
+    border: 1px solid var(--gray-100); border-radius: 999px;
+    background: transparent; cursor: pointer; color: var(--gray-500);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--gray-300); color: var(--black); }
+  .filter-btn.on {
+    background: var(--black); color: var(--white);
+    border-color: var(--black);
+  }
+
+  .futbol-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; padding: 2.5rem;
+  }
+  .futbol-card {
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius); overflow: hidden; cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .futbol-card:hover { border-color: var(--gray-300); transform: translateY(-2px); }
+  .futbol-img {
+    height: 250px; display: flex; align-items: center; justify-content: center;
+    position: relative; border-bottom: 1px solid var(--gray-100);
+  }
+  .futbol-club {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--gray-500); background: var(--white);
+    border: 1px solid var(--gray-100); border-radius: 999px; padding: 4px 12px;
+  }
+  .futbol-badge {
+    position: absolute; bottom: 12px; left: 12px;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 10px; background: var(--black); color: var(--white); border-radius: 999px;
+  }
+  .futbol-info { padding: 1.25rem 1.5rem; }
+  .futbol-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .futbol-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 12px; }
+  .futbol-footer { display: flex; justify-content: space-between; align-items: center; }
+  .futbol-price { font-size: 15px; font-weight: 500; }
+  .futbol-sizes { display: flex; gap: 4px; }
+  .size-tag {
+    font-size: 11px; padding: 3px 8px;
+    border: 1px solid var(--gray-100); border-radius: 4px;
+    color: var(--gray-500);
+  }
+
+  /* SHIRT SVG */
+  .shirt-svg { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo" onclick="showPage('home')">Camisetas de Culto</span>
+  <div class="nav-links">
+    <a onclick="showPage('home')" id="nav-home" class="active">Inicio</a>
+    <a onclick="showPage('futbol')" id="nav-futbol">Fútbol</a>
+    <a>Running</a>
+    <a>Gym</a>
+    <a>Contacto</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Carrito (0)</button>
+    <button class="btn-solid">Mi cuenta</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-left">
+      <span class="hero-eyebrow"><span class="eyebrow-dot"></span>Nueva temporada 2026</span>
+      <h1>Ropa que<br><em>trabaja</em><br>contigo.</h1>
+      <p class="hero-desc">Prendas deportivas diseñadas para quienes se toman en serio el entrenamiento. Materiales técnicos, corte preciso, identidad propia.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('futbol')">Ver camisetas de fútbol →</button>
+        <button class="btn-secondary">Explorar todo</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <svg class="shirt-svg" width="220" height="220" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#0f0f0f" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#0f0f0f" stroke-width="1.5"/>
+        <line x1="62" y1="82" x2="35" y2="70" stroke="#0f0f0f" stroke-width="1"/>
+        <line x1="138" y1="82" x2="165" y2="70" stroke="#0f0f0f" stroke-width="1"/>
+        <path d="M78 108 Q100 118 122 108" fill="none" stroke="#b0afa9" stroke-width="1" stroke-dasharray="4 3"/>
+        <circle cx="100" cy="132" r="9" fill="none" stroke="#c8a96e" stroke-width="1.5"/>
+      </svg>
+      <div class="hero-pill">
+        <div class="pill-label">Colección</div>
+        <div class="pill-val">Primavera · Verano 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-bar">
+    <div class="marquee-inner">
+      <span>Tejido técnico</span><span class="dot-sep">·</span>
+      <span>Hecho en Europa</span><span class="dot-sep">·</span>
+      <span>Envío 24–48h</span><span class="dot-sep">·</span>
+      <span>Devolución gratis</span><span class="dot-sep">·</span>
+      <span>Running</span><span class="dot-sep">·</span>
+      <span>Fútbol</span><span class="dot-sep">·</span>
+      <span>Gym</span><span class="dot-sep">·</span>
+      <span>Tejido técnico</span><span class="dot-sep">·</span>
+      <span>Hecho en Europa</span><span class="dot-sep">·</span>
+      <span>Envío 24–48h</span><span class="dot-sep">·</span>
+      <span>Devolución gratis</span><span class="dot-sep">·</span>
+      <span>Running</span><span class="dot-sep">·</span>
+      <span>Fútbol</span><span class="dot-sep">·</span>
+      <span>Gym</span><span class="dot-sep">·</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-header">
+      <div>
+        <div class="sec-label">Categorías</div>
+        <h2 class="sec-title" style="margin-bottom:0">Encuentra tu estilo</h2>
+      </div>
+    </div>
+    <div class="cat-grid" style="margin-top:2rem">
+      <div class="cat-card featured" onclick="showPage('futbol')">
+        <span class="cat-arrow">↗</span>
+        <svg class="cat-icon" width="120" height="120" viewBox="0 0 200 200" fill="none">
+          <path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#0f0f0f" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#0f0f0f" stroke-width="2"/>
+          <line x1="62" y1="82" x2="35" y2="70" stroke="#0f0f0f" stroke-width="1.5"/>
+          <line x1="138" y1="82" x2="165" y2="70" stroke="#0f0f0f" stroke-width="1.5"/>
+        </svg>
+        <h3>Fútbol</h3>
+        <p>Camisetas de equipos y selecciones</p>
+      </div>
+      <div class="cat-card">
+        <svg class="cat-icon" width="80" height="80" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="70" stroke="#0f0f0f" stroke-width="2"/>
+          <path d="M60 100 Q100 60 140 100 Q100 140 60 100Z" stroke="#0f0f0f" stroke-width="1.5" fill="none"/>
+        </svg>
+        <h3>Running</h3>
+        <p>Ligeras y técnicas</p>
+      </div>
+      <div class="cat-card">
+        <svg class="cat-icon" width="80" height="80" viewBox="0 0 200 200" fill="none">
+          <rect x="50" y="50" width="100" height="100" rx="8" stroke="#0f0f0f" stroke-width="2"/>
+          <line x1="80" y1="50" x2="80" y2="150" stroke="#0f0f0f" stroke-width="1.5"/>
+          <line x1="120" y1="50" x2="120" y2="150" stroke="#0f0f0f" stroke-width="1.5"/>
+        </svg>
+        <h3>Gym</h3>
+        <p>Para entrenar fuerte</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="products-section">
+    <div class="sec-header">
+      <div>
+        <div class="sec-label">Productos</div>
+        <h2 class="sec-title" style="margin-bottom:0">Novedades de temporada</h2>
+      </div>
+      <a class="sec-link">Ver todo →</a>
+    </div>
+    <div class="prod-grid" style="margin-top:2rem">
+      <div class="prod-card">
+        <div class="prod-img" style="background:#f5f4f1">
+          <span class="prod-badge">Nuevo</span>
+          <svg width="80" height="80" viewBox="0 0 200 200" fill="none"><path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#0f0f0f" stroke-width="2" stroke-linejoin="round"/><path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#0f0f0f" stroke-width="2"/></svg>
+        </div>
+        <div class="prod-name">Core Training</div>
+        <div class="prod-sub">Dry-fit · Manga corta</div>
+        <div class="prod-footer"><span class="prod-price">29,90 €</span><button class="prod-add">+ Añadir</button></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img" style="background:#e8e7e3">
+          <svg width="80" height="80" viewBox="0 0 200 200" fill="none"><path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#5F5E5A" stroke-width="2" stroke-linejoin="round"/><path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#5F5E5A" stroke-width="2"/></svg>
+        </div>
+        <div class="prod-name">Cult Pro</div>
+        <div class="prod-sub">Compresión · Premium</div>
+        <div class="prod-footer"><span class="prod-price">39,90 €</span><button class="prod-add">+ Añadir</button></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img" style="background:#ddeaf7">
+          <svg width="80" height="80" viewBox="0 0 200 200" fill="none"><path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#185FA5" stroke-width="2" stroke-linejoin="round"/><path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#185FA5" stroke-width="2"/></svg>
+        </div>
+        <div class="prod-name">Trail Edition</div>
+        <div class="prod-sub">Exterior · Cortavientos</div>
+        <div class="prod-footer"><span class="prod-price">34,90 €</span><button class="prod-add">+ Añadir</button></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img" style="background:#e4f0d8">
+          <svg width="80" height="80" viewBox="0 0 200 200" fill="none"><path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="#3B6D11" stroke-width="2" stroke-linejoin="round"/><path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="#3B6D11" stroke-width="2"/></svg>
+        </div>
+        <div class="prod-name">Gym Flow</div>
+        <div class="prod-sub">Elástico 4D · Gym</div>
+        <div class="prod-footer"><span class="prod-price">32,90 €</span><button class="prod-add">+ Añadir</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-strip">
+    <div class="about-left">
+      <div class="sec-label">Quiénes somos</div>
+      <h2>Nació del deporte, no de un algoritmo.</h2>
+      <p>Creamos Camisetas de Culto porque nos cansamos de ropa que prometía rendimiento pero no lo entregaba. Cada prenda sale de pruebas reales, no de renders. Trabajamos con fabricantes europeos que comparten nuestra obsesión por el detalle.</p>
+    </div>
+    <div class="about-right">
+      <div class="about-feat">
+        <div class="about-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f0f0f" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <div>
+          <h4>Materiales testados</h4>
+          <p>Cada tejido pasa por semanas de prueba antes de llegar a producción.</p>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f0f0f" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+        </div>
+        <div>
+          <h4>Producción europea</h4>
+          <p>Fabricamos en Portugal y España. Corto recorrido, mayor control de calidad.</p>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f0f0f" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8v4h8V3z"/></svg>
+        </div>
+        <div>
+          <h4>Devolución sin preguntas</h4>
+          <p>30 días para devolver sin coste. Así de sencillo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="sec-label">Newsletter</div>
+    <h2>Primero en enterarte.</h2>
+    <p>Nuevas colecciones, lanzamientos exclusivos y descuentos solo para suscriptores.</p>
+    <div class="cta-row">
+      <input type="email" placeholder="tu@email.com"/>
+      <button>Suscribirse</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Camisetas de Culto</p>
+    <div class="footer-links">
+      <a>Política de privacidad</a>
+      <a>Aviso legal</a>
+      <a>Instagram</a>
+      <a>Contacto</a>
+    </div>
+  </footer>
+
+</div>
+
+<!-- FÚTBOL PAGE -->
+<div class="page" id="page-futbol">
+  <div class="futbol-hero">
+    <button class="back-btn" onclick="showPage('home')">← Volver al inicio</button>
+    <div class="sec-label">Catálogo</div>
+    <h1>Camisetas de fútbol</h1>
+    <p>La colección completa: equipos, selecciones y ediciones especiales.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn on" onclick="filterCats(this,'all')">Todos</button>
+    <button class="filter-btn" onclick="filterCats(this,'liga')">Liga española</button>
+    <button class="filter-btn" onclick="filterCats(this,'premier')">Premier League</button>
+    <button class="filter-btn" onclick="filterCats(this,'seleccion')">Selecciones</button>
+    <button class="filter-btn" onclick="filterCats(this,'retro')">Retro</button>
+    <button class="filter-btn" onclick="filterCats(this,'especial')">Edición especial</button>
+  </div>
+
+  <div class="futbol-grid" id="futbol-grid"></div>
+
+  <footer>
+    <p>© 2026 Camisetas de Culto</p>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Inicio</a>
+      <a>Contacto</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const shirts = [
+  { name:"Madrid Clásico", sub:"Local · Temporada 25/26", price:"89,90 €", cat:"liga", bg:"#ddeaf7", stroke:"#185FA5", club:"Liga española" },
+  { name:"Barça Visitante", sub:"Away · Rayas históricas", price:"84,90 €", cat:"liga", bg:"#fce8e8", stroke:"#A32D2D", club:"Liga española" },
+  { name:"Atlético de Madrid", sub:"Local · Edición Champions", price:"79,90 €", cat:"liga", bg:"#fce8e8", stroke:"#E24B4A", club:"Liga española", badge:"Champions" },
+  { name:"Sevilla FC", sub:"Local · Blanco clásico", price:"75,90 €", cat:"liga", bg:"#f5f4f1", stroke:"#0f0f0f", club:"Liga española" },
+  { name:"Arsenal Home", sub:"Local · Temporada 25/26", price:"85,90 €", cat:"premier", bg:"#fce8e8", stroke:"#A32D2D", club:"Premier League" },
+  { name:"Manchester City", sub:"Away · Azul celeste", price:"87,90 €", cat:"premier", bg:"#ddeaf7", stroke:"#378ADD", club:"Premier League" },
+  { name:"Liverpool FC", sub:"Local · Anfield Edition", price:"83,90 €", cat:"premier", bg:"#fce8e8", stroke:"#993556", club:"Premier League", badge:"Nuevo" },
+  { name:"Chelsea", sub:"Local · Azul royal", price:"81,90 €", cat:"premier", bg:"#ddeaf7", stroke:"#0C447C", club:"Premier League" },
+  { name:"España", sub:"Local · UEFA Nations League", price:"94,90 €", cat:"seleccion", bg:"#fce8e8", stroke:"#E24B4A", club:"Selecciones", badge:"Oficial" },
+  { name:"Francia", sub:"Local · Azul profundo", price:"91,90 €", cat:"seleccion", bg:"#ddeaf7", stroke:"#0C447C", club:"Selecciones" },
+  { name:"Argentina", sub:"Campeona del Mundo", price:"96,90 €", cat:"seleccion", bg:"#ddeaf7", stroke:"#378ADD", club:"Selecciones", badge:"Edición oro" },
+  { name:"Portugal", sub:"Local · Temporada 25/26", price:"89,90 €", cat:"seleccion", bg:"#fce8e8", stroke:"#993C1D", club:"Selecciones" },
+  { name:"Barça 92 Retro", sub:"Dream Team · Coleccionista", price:"74,90 €", cat:"retro", bg:"#faece7", stroke:"#993C1D", club:"Retro" },
+  { name:"Madrid 2000 Retro", sub:"Temporada dorada", price:"72,90 €", cat:"retro", bg:"#e8e7e3", stroke:"#5F5E5A", club:"Retro" },
+  { name:"Brasil 1970 Retro", sub:"Pelé · Leyenda", price:"78,90 €", cat:"retro", bg:"#faeeda", stroke:"#BA7517", club:"Retro", badge:"Histórica" },
+  { name:"Italia 1982 Retro", sub:"Campeones del Mundo", price:"76,90 €", cat:"retro", bg:"#ddeaf7", stroke:"#185FA5", club:"Retro" },
+  { name:"Negra Cult FC", sub:"Diseño exclusivo Camisetas de Culto", price:"59,90 €", cat:"especial", bg:"#e8e7e3", stroke:"#0f0f0f", club:"Ed. especial", badge:"Exclusiva" },
+  { name:"Blanca Minimal", sub:"Edición limitada · Sin escudo", price:"54,90 €", cat:"especial", bg:"#fafaf8", stroke:"#b0afa9", club:"Ed. especial" },
+  { name:"Gradient Fade", sub:"Dos tonos · Arte y deporte", price:"64,90 €", cat:"especial", bg:"#e4f0d8", stroke:"#3B6D11", club:"Ed. especial", badge:"Limitada" },
+];
+
+function renderShirts(list) {
+  const grid = document.getElementById('futbol-grid');
+  grid.innerHTML = list.map(s => `
+    <div class="futbol-card">
+      <div class="futbol-img" style="background:${s.bg}">
+        <span class="futbol-club">${s.club}</span>
+        ${s.badge ? `<span class="futbol-badge">${s.badge}</span>` : ''}
+        <svg width="90" height="90" viewBox="0 0 200 200" fill="none">
+          <path d="M70 38 L35 70 L62 82 L62 162 L138 162 L138 82 L165 70 L130 38 Q118 52 100 52 Q82 52 70 38Z" fill="none" stroke="${s.stroke}" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M70 38 Q82 24 100 22 Q118 24 130 38" fill="none" stroke="${s.stroke}" stroke-width="2"/>
+          <line x1="62" y1="82" x2="35" y2="70" stroke="${s.stroke}" stroke-width="1.5"/>
+          <line x1="138" y1="82" x2="165" y2="70" stroke="${s.stroke}" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="futbol-info">
+        <div class="futbol-name">${s.name}</div>
+        <div class="futbol-sub">${s.sub}</div>
+        <div class="futbol-footer">
+          <span class="futbol-price">${s.price}</span>
+          <div class="futbol-sizes">
+            <span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span><span class="size-tag">XL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCats(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderShirts(cat === 'all' ? shirts : shirts.filter(s => s.cat === cat));
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+renderShirts(shirts);
+</script>
+</body>
+</html>
